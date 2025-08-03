@@ -88,7 +88,7 @@ parameters = {
 rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0), 
                                  param_distributions = parameters,
                                  cv = 5, 
-                                 n_iter = 50, 
+                                 n_iter = 20, 
                                  random_state = 0, 
                                  n_jobs = -1,
                                  verbose = 0)
