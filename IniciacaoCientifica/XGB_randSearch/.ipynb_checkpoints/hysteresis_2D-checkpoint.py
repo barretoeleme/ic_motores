@@ -78,7 +78,7 @@ y_test = test_data[variable]
 
 
 parameters = {
-    'n_estimators' : [10, 20],
+    'n_estimators' : [100, 200],
     'learning_rate' : [0.0001, 0.001, 0.01, 0.1, 1],
     'max_depth' : range(3, 21, 3),
     'reg_alpha' : [0, 0.5, 1, 5],
@@ -88,9 +88,10 @@ parameters = {
 rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0), 
                                  param_distributions = parameters,
                                  cv = 5, 
-                                 n_iter = 20, 
+                                 n_iter = 50, 
                                  random_state = 0, 
-                                 n_jobs = -1)
+                                 n_jobs = -1,
+                                 verbose = 0)
 rand_search.fit(X_train, y_train)
 rand_search.best_params_
 y_pred = rand_search.best_estimator_.predict(X_test)
