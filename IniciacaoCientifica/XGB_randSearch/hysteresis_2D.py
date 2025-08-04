@@ -80,6 +80,7 @@ y_test = test_data[variable]
 parameters = {
     'n_estimators' : [50],
     'learning_rate' : [0.0001, 0.001, 0.01, 0.1, 1],
+    'gamma' : [i/10.0 for i in range(0, 5)],
     'max_depth' : range(3, 21, 3),
     'reg_alpha' : [0, 0.5, 1, 5],
     'reg_lambda' : [0, 0.5, 1, 5]
@@ -87,8 +88,9 @@ parameters = {
 
 rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0), 
                                  param_distributions = parameters,
+                                 scoring = ['neg_mean_absolute_percentage_error'],
                                  cv = 5, 
-                                 n_iter = 50, 
+                                 n_iter = 1, 
                                  random_state = 0, 
                                  n_jobs = -1,
                                  verbose = 0)
