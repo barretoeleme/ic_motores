@@ -54,6 +54,11 @@ y_test = test_data[variable]
 
 
 
+X_train_main, X_val, y_train_main, y_val = train_test_split(
+    X_train, y_train, test_size=0.2, random_state=42
+)
+
+# Define hyperparameter search space
 param_distributions = {
     'n_estimators': [100, 200, 300],
     'learning_rate': [0.01, 0.05, 0.1, 0.2],
@@ -73,7 +78,7 @@ rand_search = RandomizedSearchCV(
     scoring='neg_mean_absolute_error',
     refit=True,
     cv=cv,
-    n_iter=1,
+    n_iter=30,
     random_state=0,
     n_jobs=-1,
     verbose=2  # More detailed output
