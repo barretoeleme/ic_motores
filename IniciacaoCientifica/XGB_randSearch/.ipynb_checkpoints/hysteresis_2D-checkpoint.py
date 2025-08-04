@@ -78,7 +78,7 @@ y_test = test_data[variable]
 
 
 parameters = {
-    'n_estimators' : [10, 20, 30, 40, 50],
+    'n_estimators' : [50],
     'learning_rate' : [0.0001, 0.001, 0.01, 0.1, 1],
     'max_depth' : range(3, 21, 3),
     'reg_alpha' : [0, 0.5, 1, 5],
