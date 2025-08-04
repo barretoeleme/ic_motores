@@ -55,7 +55,7 @@ y_test = test_data[variable]
 
 
 X_train_main, X_val, y_train_main, y_val = train_test_split(
-    X_train, y_train, test_size=0.2, random_state=42
+    X_train, y_train, test_size=0.2, random_state=0
 )
 
 # Define hyperparameter search space
