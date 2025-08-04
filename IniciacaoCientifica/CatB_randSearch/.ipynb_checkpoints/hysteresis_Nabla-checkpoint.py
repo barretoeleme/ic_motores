@@ -53,7 +53,7 @@ X_train_main, X_val, y_train_main, y_val = train_test_split(
 
 # Define hyperparameter space for CatBoost
 param_distributions = {
-    'iterations': [30, 50],
+    'iterations': [100, 200, 300],
     'learning_rate': [0.01, 0.05, 0.1],
     'depth': [4, 6, 8, 10],
     'l2_leaf_reg': [1, 3, 5, 7, 9],
