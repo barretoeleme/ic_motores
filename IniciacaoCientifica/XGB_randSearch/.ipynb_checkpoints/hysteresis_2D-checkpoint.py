@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error, r2_score, accuracy_score
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV, RepeatedKFold
 
 train_data = pd.DataFrame()
 
@@ -52,29 +52,6 @@ y_train = train_data[variable]
 X_test = test_data.drop(columns = columns)
 y_test = test_data[variable]
 
-# parameters = {
-#     'learning_rate' : [0.0001, 0.001, 0.01, 0.1, 1],
-#     'max_depth' : range(3, 21, 3),
-#     'gamma' : [i/10.0 for i in range(0, 5)],
-#     # 'colsample_bytree' : [i/10.0 for i in range(3, 10)],
-#     'reg_alpha' : [1e-5, 1e-2, 0.1, 1, 10, 100],
-#     'reg_lambda' : [1e-5, 1e-2, 0.1, 1, 10, 100]
-# }
-# scoring = ['neg_mean_absolute_percentage_error']
-# # kfold = StratifiedKFold(n_splits = 3, shuffle = True, random_state = 0)
-
-# rand_search = RandomizedSearchCV(estimator = XGBRegressor(), 
-#                                  param_distributions = parameters,
-#                                  scoring = scoring,
-#                                  refit = False, 
-#                                  # cv = kfold,
-#                                  n_iter = 1,
-#                                  n_jobs = -1,
-#                                  verbose = 0)
-# rand_search.fit(X_train, y_train)
-# rand_search.get_params_
-# y_pred = rand_search.best_estimator_.predict(X_test)
-
 
 
 param_distributions = {
@@ -86,20 +63,41 @@ param_distributions = {
     'reg_lambda': [0.5, 1, 2]
 }
 
+# Use RepeatedKFold for more robust CV
+cv = RepeatedKFold(n_splits=5, n_repeats=2, random_state=0)
+
+# RandomizedSearchCV with RepeatedKFold
 rand_search = RandomizedSearchCV(
-    estimator=XGBRegressor(random_state=0),
+    estimator=XGBRegressor(verbosity=1, random_state=0),
     param_distributions=param_distributions,
     scoring='neg_mean_absolute_error',
     refit=True,
-    cv=5,
-    n_iter=30,
+    cv=cv,
+    n_iter=1,
     random_state=0,
     n_jobs=-1,
-    verbose=1
+    verbose=2  # More detailed output
 )
 
-rand_search.fit(X_train, y_train)
+# Fit with randomized search (no early stopping here yet)
+rand_search.fit(X_train_main, y_train_main)
+
+# Print best parameters and score
+print("Best Parameters:", rand_search.best_params_)
+print("Best CV Score:", rand_search.best_score_)
+
+# Retrieve and refit best estimator using early stopping
 best_model = rand_search.best_estimator_
+best_model.fit(
+    X_train_main, y_train_main,
+    eval_set=[(X_val, y_val)],
+    eval_metric='mae',
+    early_stopping_rounds=10,
+    verbose=True
+)
+
+# Predict
+y_pred = best_model.predict(X_test)
 
 
 
