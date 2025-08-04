@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+
+% Pacotes
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage[style=abnt, backend=biber]{biblatex}
+\addbibresource{referencias.bib} % Arquivo .bib com referências
+
+% Configurações de página
+\geometry{a4paper, top=3cm, bottom=3cm, left=3cm, right=2.5cm}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.2cm}
+\onehalfspacing
+
+% Início do documento
+\begin{document}
+
+% Capa
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Large\textbf{Universidade Federal Exemplar}}\\[0.3cm]
+    {\large Departamento de Ciência da Computação}\\[3cm]
+    
+    {\huge\bfseries Modelos básicos para IPMSMs}\\[1.5cm]
+    
+    {\large Autor: Nome Completo}\\[0.5cm]
+    {\large Matrícula: 123456789}\\[0.5cm]
+    {\large Professor: Nome do Professor}\\[4cm]
+    
+    {\large Cidade – Estado}\\
+    {\large \today}
+\end{titlepage}
+
+% Sumário
+\tableofcontents
+\newpage
+
+% Introdução
+\section{Introdução}
+% O que são IPMSMs?
+% Por quê é importante estudas IPMSMs?
+% Por quê usar saprendizado de máquina para a análise de IPSMs?
+% Objetivo do trabalho: Encontrar o melhor modelo possível para a predição de loss das IPMSMs analisadas.
+
+
+% Metodologia
+\section{Fundamentos}
+% Descreva os métodos, algoritmos ou procedimentos utilizados. Pode incluir diagramas, equações ou pseudocódigo.
+
+\subsection{Motores analisados}
+
+\subsection{Bases de dados}
+
+\subsection{Modelos Utilizados}
+\subsubsection{Regressão Linear}
+\subsubsection{Árvores de Regressão}
+\subsubsection{Random Forests}
+\subsubsection{XGboos}
+\subsubsection{CatBoost}
+
+\section{Metodologia}
+Para atingir os objetivos deste trabalho, definimos 2 experimentos \dots
+
+\subsection{Experimento 1: Identificar os Modelos mais Promissores}
+
+\subsection{Experimento 2: Identificar o mlehor conjunto de hiper parâmetros para os modelos mais promissores}
+
+
+% Resultados
+\section{Resultados}
+Apresente os resultados obtidos (tabelas, gráficos, análises). Interprete os dados de forma clara e objetiva.
+
+% Conclusão
+\section{Conclusão}
+Retome os objetivos e destaque os principais achados. Comente limitações e sugestões para trabalhos futuros.
+
+% Referências
+\newpage
+\printbibliography
+
+\end{document}
