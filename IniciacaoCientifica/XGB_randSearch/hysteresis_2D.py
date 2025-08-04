@@ -89,6 +89,7 @@ parameters = {
 rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0), 
                                  param_distributions = parameters,
                                  scoring = ['neg_mean_absolute_percentage_error'],
+                                 refit = True,
                                  cv = 5, 
                                  n_iter = 1, 
                                  random_state = 0, 
