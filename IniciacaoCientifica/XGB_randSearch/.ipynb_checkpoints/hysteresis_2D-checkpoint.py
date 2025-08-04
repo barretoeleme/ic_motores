@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error, r2_score, accuracy_score
-from sklearn.model_selection import RandomizedSearchCV, RepeatedKFold
+from sklearn.model_selection import RandomizedSearchCV, RepeatedKFold, train_test_split
 
 train_data = pd.DataFrame()
 
