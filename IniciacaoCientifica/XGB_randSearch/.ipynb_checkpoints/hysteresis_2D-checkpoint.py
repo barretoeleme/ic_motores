@@ -88,7 +88,7 @@ parameters = {
 
 rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0), 
                                  param_distributions = parameters,
-                                 scoring = ['neg_mean_absolute_percentage_error'],
+                                 scoring = 'neg_mean_absolute_percentage_error',
                                  refit = True,
                                  cv = 5, 
                                  n_iter = 1, 
@@ -96,7 +96,6 @@ rand_search = RandomizedSearchCV(estimator = XGBRegressor(random_state = 0),
                                  n_jobs = -1,
                                  verbose = 0)
 rand_search.fit(X_train, y_train)
-# rand_search.best_params_
 y_pred = rand_search.best_estimator_.predict(X_test)
 
 
