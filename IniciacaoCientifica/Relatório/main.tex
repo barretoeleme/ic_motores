@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass{article}
 
 % Pacotes
 \usepackage[utf8]{inputenc}
@@ -14,13 +14,13 @@
 \usepackage{float}
 \usepackage{enumitem}
 \usepackage[style=abnt, backend=biber]{biblatex}
+\usepackage{csquotes}
 \addbibresource{referencias.bib} % Arquivo .bib com referências
 
 % Configurações de página
 \geometry{a4paper, top=3cm, bottom=3cm, left=3cm, right=2.5cm}
 \setlength{\parindent}{1.25cm}
 \setlength{\parskip}{0.2cm}
-\onehalfspacing
 
 % Início do documento
 \begin{document}
@@ -29,16 +29,19 @@
 \begin{titlepage}
     \centering
     \vspace*{3cm}
-    {\Large\textbf{Universidade Federal Exemplar}}\\[0.3cm]
-    {\large Departamento de Ciência da Computação}\\[3cm]
-    
-    {\huge\bfseries Modelos básicos para IPMSMs}\\[1.5cm]
-    
-    {\large Autor: Nome Completo}\\[0.5cm]
-    {\large Matrícula: 123456789}\\[0.5cm]
-    {\large Professor: Nome do Professor}\\[4cm]
-    
-    {\large Cidade – Estado}\\
+    {\Large\textbf{UFOP - Universidade Federal de Ouro Preto}} \\ 
+    [0.3cm]
+    {\large Decom - Departamento de Ciência da Computação} \\ 
+    [3cm]
+    {\huge\bfseries Modelos Básicos para IPMSMs} \\ 
+    [1.5cm]
+    {\large Autor: Bianca Barreto Leme} \\ 
+    [0.5cm]
+    {\large Matrícula: 24.1.4008} \\ 
+    [0.5cm]
+    {\large Professor: Rodrigo César Pedrosa Silva} \\ 
+    [4cm]
+    {\large Ouro Preto - MG} \\
     {\large \today}
 \end{titlepage}
 
@@ -48,21 +51,33 @@
 
 % Introdução
 \section{Introdução}
-% O que são IPMSMs?
-% Por quê é importante estudas IPMSMs?
-% Por quê usar saprendizado de máquina para a análise de IPSMs?
-% Objetivo do trabalho: Encontrar o melhor modelo possível para a predição de loss das IPMSMs analisadas.
 
+% Por enquanto, estou só fazendo um resumo sobre os tópicos pra me guiar um pouco sobre o que devo falar e detalhar depois.
+
+% O que são IPMSMs
+Os Motores Síncronos de Ímã Interno Permanente (IPMSMs) têm sido amplamente utilizados por serem uma alternativa menos agressiva ao meio ambiente, quando comparados aos motores de carros comuns. Algumas empresas veem adotando esse novo modelo, assim como a Chevrolet e Tesla.
+
+% Por quê usar aprendizado de máquina para a análise de IPMSMs?
+Em fase de testes (Finite Element Analysis), os motores devem ser submetidos a várias condições de velocidade e torque. Fazer estes testes fisicamente é custoso e pode levar dias. Por essa razão, utilizar ``motores virtuais'' e prever suas perdas através de modelos de IA pode ser muito mais viável, pois este método não tem grandes custos e leva por volta de algumas horas.
+
+% Por quê é importante estudar IPMSMs?
+Estudando IPMSMs podemos criar modelos de inteligencia artificial que nos auxiliem a predizer as principais causas de perdas em ferro de determinado motor: perda por histerese e perda por eddy current.
+
+% Objetivo do trabalho: Encontrar o melhor modelo possível para a predição de loss das IPMSMs analisadas.
+Nesse contexto, este estudo tem como objetivo principal encontrar o melhor modelo de IA possível para predizer as perdas em histerese e eddy current de 3 motores IPMSMs analisados: 2D, Nabla e V.
 
 % Metodologia
 \section{Fundamentos}
 % Descreva os métodos, algoritmos ou procedimentos utilizados. Pode incluir diagramas, equações ou pseudocódigo.
+
+
 
 \subsection{Motores analisados}
 
 \subsection{Bases de dados}
 
 \subsection{Modelos Utilizados}
+
 \subsubsection{Regressão Linear}
 \subsubsection{Árvores de Regressão}
 \subsubsection{Random Forests}
@@ -87,6 +102,6 @@ Retome os objetivos e destaque os principais achados. Comente limitações e sug
 
 % Referências
 \newpage
-\printbibliography
+% \printbibliography
 
 \end{document}
