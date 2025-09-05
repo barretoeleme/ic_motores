@@ -20,7 +20,7 @@
 % Configurações de página
 \geometry{a4paper, top=3cm, bottom=3cm, left=3cm, right=2.5cm}
 \setlength{\parindent}{1.25cm}
-\setlength{\parskip}{0.2cm}
+\setlength{\parskip}{0.1cm}
 
 % Início do documento
 \begin{document}
@@ -55,13 +55,13 @@
 % Por enquanto, estou só fazendo um resumo sobre os tópicos pra me guiar um pouco sobre o que devo falar e detalhar depois.
 
 % O que são IPMSMs
-Os Motores Síncronos de Ímã Interno Permanente (IPMSMs) têm sido amplamente utilizados por serem uma alternativa menos agressiva ao meio ambiente, quando comparados aos motores de carros comuns. Algumas empresas veem adotando esse novo modelo, assim como a Chevrolet e Tesla.
+Os Motores Síncronos de Ímã Interno Permanente (IPMSMs) têm sido amplamente utilizados por serem uma alternativa menos agressiva ao meio ambiente, quando comparados aos motores de carros comuns.
 
 % Por quê usar aprendizado de máquina para a análise de IPMSMs?
-Em fase de testes (Finite Element Analysis), os motores devem ser submetidos a várias condições de velocidade e torque. Fazer estes testes fisicamente é custoso e pode levar dias. Por essa razão, utilizar ``motores virtuais'' e prever suas perdas através de modelos de IA pode ser muito mais viável, pois este método não tem grandes custos e leva por volta de algumas horas.
+Em fase de testes (Finite Element Analysis), os motores devem ser submetidos a várias condições de velocidade e torque. Fazer estes testes fisicamente é custoso e pode levar dias. Por essa razão, utilizar ``motores virtuais'' e prever suas perdas através de modelos de IA pode ser muito mais viável, pois este método não tem grandes custos e levam por volta de algumas horas.
 
 % Por quê é importante estudar IPMSMs?
-Estudando IPMSMs podemos criar modelos de inteligencia artificial que nos auxiliem a predizer as principais causas de perdas em ferro de determinado motor: perda por histerese e perda por eddy current.
+Estudando IPMSMs podemos criar modelos de inteligência artificial que nos auxiliem a predizer as principais causas de perdas em ferro de determinado motor: perda por histerese e perda por eddy current.
 
 % Objetivo do trabalho: Encontrar o melhor modelo possível para a predição de loss das IPMSMs analisadas.
 Nesse contexto, este estudo tem como objetivo principal encontrar o melhor modelo de IA possível para predizer as perdas em histerese e eddy current de 3 motores IPMSMs analisados: 2D, Nabla e V.
@@ -74,22 +74,88 @@ Nesse contexto, este estudo tem como objetivo principal encontrar o melhor model
 
 \subsection{Motores analisados}
 
+Neste trabalho, foram analisados 3 IPMSMs distintos:
+
+\subsubsection{2D}
+
+
+\subsubsection{Nabla}
+
+
+\subsubsection{V}
+
 \subsection{Bases de dados}
 
+\noindent Os datasets analisados de cada motor fornecem os seguintes parâmetros:
+
+\begin{itemize}
+    \item Variáveis geométricas;
+    \item Speed;
+    \item Id;
+    \item Iq;
+    \item Perda por histerese;
+    \item Perda por eddy current.
+\end{itemize}
+
+Não entendo esses parâmetros.
+
+\newpage
+
+
+\subsection{Métricas de Avaliação de Modelos de Regressão}
+
+Para a análise da eficácia de cada modelo na predição dos atributos, foram definidas três métricas\dots
+
+\subsubsection{Mean Absolute Percentage Error (MAPE)}
+
+O \textit{Mean Absolute Percentage Error} (MAPE) mede o erro percentual médio entre
+os valores reais $y_i$ e os valores previstos $\hat{y}_i$:
+
+\[
+MAPE = \frac{100\%}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right|
+\]
+
+
+
+\subsubsection{Mean Squared Error (MSE)}
+
+O \textit{Mean Squared Error} (MSE) mede o erro quadrático médio, penalizando mais
+fortemente desvios grandes:
+
+\[
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+\]
+
+
+
+\subsubsection{Coeficiente de Determinação ($R^2$)}
+
+O coeficiente de determinação, ou $R^2$, mede a proporção da variância dos dados
+reais que é explicada pelo modelo:
+
+\[
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+\]
+
+onde $\bar{y}$ é a média dos valores reais.
+
 \subsection{Modelos Utilizados}
+
+Nesta seção, serão apresentados os diferentes modelos de aprendizado de máquina utilizados para a predição. 
 
 \subsubsection{Regressão Linear}
 \subsubsection{Árvores de Regressão}
 \subsubsection{Random Forests}
-\subsubsection{XGboos}
+\subsubsection{XGBoost}
 \subsubsection{CatBoost}
 
 \section{Metodologia}
-Para atingir os objetivos deste trabalho, definimos 2 experimentos \dots
+
+Para atingir os objetivos deste trabalho, foram definidos 2 experimentos\dots
 
 \subsection{Experimento 1: Identificar os Modelos mais Promissores}
 
-\subsection{Experimento 2: Identificar o mlehor conjunto de hiper parâmetros para os modelos mais promissores}
+\subsection{Experimento 2: Identificar o melhor conjunto de hiper parâmetros para os modelos mais promissores}
 
 
 % Resultados
