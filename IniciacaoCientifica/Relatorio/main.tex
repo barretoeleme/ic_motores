@@ -271,9 +271,9 @@ Para atingir os objetivos deste trabalho, foram definidos 2 experimentos\dots
 
 \subsection{Experimento 1: Identificar os Modelos mais Promissores}
 
-Para esta primeira fase, os hiperparâmetros utilizados foram os já estabelecidos pela linguagem Python, sem nenhuma alteração feita pela pesquisa.
+Para esta primeira fase, os hiperparâmetros utilizados foram os já estabelecidos pela linguagem Python, sem nenhuma alteração feita pela pesquisa. Os modelos de aprendizado foram alimentados com as bases de dados destinadas para treino, X train e y train. 
 
-Os modelos de aprendizado foram alimentados com as bases de dados destinadas para treino, X train e y train. Os modelos com target em hysteresis e os com target em joule foram treinados separadamente.
+Por mais que as IAs com target em hysteresis e as com target em \textit{eddy current} foram treinadas separadamente, para um modelo de predição para perda de histerese foram utilizados as mesmas configurações e hiperparâmetros para a predição de \textit{eddy current}, neste mesmo modelo.
 
 Após essa fase, os dados de X test são fornecidos aos modelos já treinados que retornam, então, os resultados preditos \--- y pred. A acurácia dos modelos é avaliada pela semelhança entre os valores reais em y test e os valores preditos em y pred. Essa acurácia é refletida nas métricas MSE, MAPE e R² score, que foram coletadas ao longo da pesquisa.
 
@@ -301,10 +301,12 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
 
 \subsection{Métricas}
 
-\subsubsection{Métricas para o Motor 2D}
-% Apresente os resultados obtidos (tabelas, gráficos, análises). Interprete os dados de forma clara e objetiva.
+As tabelas a seguir apresentam as métricas de desempenho obtidas para cada motor analisado utilizando diferentes métodos de regressão e duas variáveis \textit{target}: hysteresis e joule. As métricas consideradas foram o coeficiente de determinação (R² Score), o erro quadrático médio (MSE) e o erro percentual absoluto médio (MAPE).
 
-\begin{table}[h!]
+\subsubsection{Métricas para o Motor 2D}
+
+
+\begin{table}[!htbp]
 \centering
 \caption{Métricas para o motor 2D}
 \begin{tabular}{llccc}
@@ -342,11 +344,19 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
 \end{tabular}
 \end{table}
 
+Nos resultados obtidos para o motor 2D, observa-se que os métodos regressão linear, árvore de regressão e \textit{random forests} obtiveram os piores retornos, com altos valores de erro (tanto em MSE quanto MAPE). Entre estes, o modelo de regressão linear apresentou o pior desempenho, com \textit{score} de 0.87 para predição de perda por histerese e 0.72 para a predição de perda por \textit{eddy current}. Os modelos de árvores de regressão e florestas aleatórias, apesar de terem taxas de erros altas, não retornaram scores insatisfatórios.
+
+Para os modelos \textit{CatBoost} e \textit{XGBoost}, os resultados foram consideravelmente positivos, com \textit{scores} para perda por histerese em 0.98 e para perda por \textit{eddy current} em 0.83. Os \textit{scores} obtidos pelo método \textit{random forests} não se manteve muito distante, porém apresentou MAPEs maiores: enquanto \textit{CatBoost} e \textit{XGBoost} tiveram um máximo de 0.24, \textit{random forests} apresentou um mínimo de 0.312.
+
+Em geral, na aplicação do método \textit{Randomized Search} sob os modelos \textit{CatBoost} e \textit{XGBoost}, os valores de R² score, MSE e MAPE se mantiveram similares aos anteriores, com uma variação substancial nos resultados.
+
+Importante notar que, enquanto a perda por histerese foi prevista com um \textit{score} entre 0.87 e 0.98, todos os modelos falharam em prever a perda por \textit{eddy current} com um \textit{score} acima de 0.84.
+
+Por fim, as versões híbridas (\textit{cat\_rand} e \textit{xgb\_rand}) mantiveram resultados competitivos, próximos aos melhores modelos, evidenciando estabilidade do desempenho. De forma geral, o CatBoost mostrou ser a abordagem mais adequada para o problema em questão, seguido de perto pelos métodos baseados em \textit{boosting} e \textit{bagging}.
 
 \subsubsection{Métricas para o Motor Nabla}
-% Apresente os resultados obtidos (tabelas, gráficos, análises). Interprete os dados de forma clara e objetiva.
 
-\begin{table}[h!]
+\begin{table}[!htbp]
 \centering
 \caption{Métricas para o motor Nabla}
 \begin{tabular}{llccc}
@@ -384,11 +394,19 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
 \end{tabular}
 \end{table}
 
+Assim como foi notado para o motor anterior, os métodos regressão linear, árvore de regressão e \textit{random forests} obtiveram os piores retornos, com altos valores de erro (tanto em MSE quanto MAPE). Entre estes, o modelo de regressão linear apresentou o pior desempenho, com \textit{score} de 0.88 para predição de perda por histerese e 0.85 para a predição de perda por \textit{eddy current} e taxas de MAPE exorbitantes: 4.13 para predição de perda por histerese e 1.9 para predição de perda por \textit{eddy current}. Os modelos de árvores de regressão e florestas aleatórias, apesar de terem taxas de erros altas (especialmente para o MAPE na predição de perda por histerese pela árvore de regressão), não retornaram \textit{scores} insatisfatórios. 
 
+Para os modelos \textit{CatBoost} e \textit{XGBoost}, os resultados foram consideravelmente positivos, com \textit{scores} para perda por histerese em 0.99 e para perda por \textit{eddy current} em aproximadamente 0.99. Os resultados obtidos pelo método \textit{random forests} não se mantiveram muito distantes, contudo em alguns casos ainda inferiores.
+
+Na aplicação do método \textit{Randomized Search} sob os modelos \textit{CatBoost} e \textit{XGBoost}, apesar de não modificar expressivamente os resultados de \textit{score} e também apresentar melhoras nas taxas de erro, apresentou alguns resultados conflitantes nas taxas de erros: por exemplo, enquanto houve piora em MSE para o \textit{target hysteresis} no método \textit{CatBoost}, houve melhora em MAPE para o mesmo cenário.
+
+Por fim, as versões híbridas (\textit{cat\_rand} e \textit{xgb\_rand}) mantiveram resultados competitivos, próximos aos melhores modelos. De forma geral, o CatBoost mostrou ser a abordagem mais adequada para o problema em questão, seguido de perto pelos métodos baseados em \textit{boosting} e \textit{bagging}.
+
+\newpage
 
 \subsubsection{Métricas para o Motor V}
 
-\begin{table}[h!]
+\begin{table}[!htbp]
 \centering
 \caption{Métricas para o motor V}
 \begin{tabular}{llccc}
@@ -425,6 +443,14 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
 \bottomrule
 \end{tabular}
 \end{table}
+
+Assim como foi notado para o motor anterior, os métodos regressão linear, árvore de regressão e \textit{random forests} obtiveram os piores retornos, com altos valores de erro (tanto em MSE quanto MAPE). Entre estes, o modelo de regressão linear apresentou o pior desempenho, com \textit{score} de 0.89 para predição de perda por histerese e 0.86 para a predição de perda por \textit{eddy current}. Os modelos de árvores de regressão e florestas aleatórias, apesar de terem taxas de erros altas (especialmente para o MAPE na predição de perda por histerese pela árvore de regressão), não retornaram \textit{scores} insatisfatórios. 
+
+Para os modelos \textit{CatBoost} e \textit{XGBoost}, os resultados foram consideravelmente positivos, com \textit{scores} para perda por histerese em 0.99 e para perda por \textit{eddy current} em aproximadamente 0.99. Os resultados obtidos pelo método \textit{random forests} não se mantiveram muito distantes, contudo obteve taxas de erro maiores.
+
+Na aplicação do método \textit{Randomized Search} sob os modelos \textit{CatBoost} e \textit{XGBoost}, apesar de não modificar expressivamente os resultados de \textit{score}, apresentou alguns resultados conflitantes nas taxas de erros.
+
+Por fim, as versões híbridas (\textit{cat\_rand} e \textit{xgb\_rand}) mantiveram resultados competitivos, próximos aos melhores modelos. De forma geral, o CatBoost mostrou ser a abordagem mais adequada para o problema em questão, seguido de perto pelos métodos baseados em \textit{boosting} e \textit{bagging}.
 
 \newpage
 
@@ -465,13 +491,13 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/2D/rand_for_hysteresis.png}
-        \caption{Rand For Hysteresis}
+        \caption{Rand Forests Hysteresis}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/2D/rand_for_joule.png}
-        \caption{Rand For Joule}
+        \caption{Rand Forests Joule}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
@@ -582,13 +608,13 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/Nabla/rand_for_hysteresis.png}
-        \caption{Rand For Hysteresis}
+        \caption{Rand Forests Hysteresis}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/Nabla/rand_for_joule.png}
-        \caption{Rand For Joule}
+        \caption{Rand Forests Joule}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
@@ -697,13 +723,13 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/V/rand_for_hysteresis.png}
-        \caption{Rand For Hysteresis}
+        \caption{Rand Forests Hysteresis}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/V/rand_for_joule.png}
-        \caption{Rand For Joule}
+        \caption{Rand Forests Joule}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.23\textwidth}
@@ -779,24 +805,24 @@ Nesta seção, os resultados para cada motor serão apresentados em 2 formatos: 
 
 \subsection{Observações}
 
-No geral, a predição da perda por histerese retornou melhores resultados quando comparados à predição de perda por joule.
+No geral, a predição da perda por histerese retornou resultados similares ou ligeiramente melhores quando comparados à predição de perda por joule. Isso só não ocorreu no motor 2D, onde todos os modelos tiveram desempenho expressivamente pior na predição de joule.
 
 Como esperado, o modelo de regressão linear provou-se como o menos eficaz para a predição de valores dos \textit{targets}. Isso se deve, muito provavelmente, ao fato de que a regressão linear é um modelo extremamente simples e rudimentar.
 
 Dentre os modelos observados na primeira fase experimental, destacam-se 2: \textit{CatBoost} e \textit{XGBoost}. Contudo, observa-se que os resultados obtidos com \textit{CatBoost} foram ainda mais satisfatórios.
 
-Já na segunda fase experimental, o comportamento do método \textit{Randomized Search} foi errático. Em alguns casos, houve uma melhora substancial nos resultados, quando comparados àqueles obtidos com modelos sem ajustes nos hiperparâmetros. Em outros, o comportamento foi contrário, e uma leve piora foi registrada. Isso pode ser explicado pela utilização dos mesmos hiperparâmetros e métodos para modelos em diferentes conjuntos de dados.
+Já na segunda fase experimental, o comportamento da aplicação do método \textit{Randomized Search} foi errático. Em alguns casos, houve uma melhora substancial nos resultados, quando comparados àqueles obtidos com modelos sem ajustes nos hiperparâmetros. Em outros, o comportamento foi contrário, e uma leve piora foi registrada. Isso pode ser explicado pela utilização dos mesmos hiperparâmetros e métodos para modelos em diferentes conjuntos de dados.
 
 Nota-se que o motor 2D obteve os melhores valores para MAPE dentre todos os outros motores. Entretanto, seu coeficiente de determinação e MSE não refletiram valores tão positivos quanto os demais. Na comparação entre valores preditos e observados, é notável que os resultados de 2D também se sobressaíram.
 
 % Conclusão
 \section{Conclusão}
 
-Tendo em mãos os resultados inesperados em alguns dos modelos, como valores piores na predição de perda por \textit{eddy current} e métricas flutuantes para o motor 2D, vale pontuar a importância de melhor análise das razões destes comportamentos em trabalhos futuros.
+Tendo em mãos os resultados inesperados em alguns dos modelos, como valores piores na predição de perda por \textit{eddy current}, vale pontuar a importância de melhor análise e tratamento destes comportamentos em trabalhos futuros.
 
 Em relação à escolha dos modelos de aprendizado, é evidente que \textit{CatBoost} e \textit{XGBoost} são promissores. Para este tipo de problema e de base de dados, o uso dos modelos rudimentares como \textit{Linear Regression}, \textit{Regression Tree} e \textit{Random Forest} não provou gerar resultados positivos.
 
-Além disso, o estudo de hiperparâmetros e melhores configurações pode ser vantajoso para obter modelos mais precisos. 
+Além disso, o estudo de hiperparâmetros e melhores configurações pode ser vantajoso para obter modelos mais precisos.
 
 \newpage
 \section{Referências}
