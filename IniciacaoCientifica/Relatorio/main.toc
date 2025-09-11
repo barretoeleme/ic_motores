@@ -6,7 +6,7 @@
 \contentsline {subsection}{\numberline {2.3}Métricas de Avaliação de Modelos de Regressão}{4}{subsection.2.3}%
 \contentsline {subsubsection}{\numberline {2.3.1}Mean Absolute Percentage Error (MAPE)}{4}{subsubsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.2}Mean Squared Error (MSE)}{4}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Coeficiente de Determinação ($R^2$)}{4}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3}Coeficiente de Determinação (R² Score)}{4}{subsubsection.2.3.3}%
 \contentsline {subsection}{\numberline {2.4}Modelos Utilizados}{5}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}Regressão Linear}{5}{subsubsection.2.4.1}%
 \contentsline {subsubsection}{\numberline {2.4.2}Regression Trees}{5}{subsubsection.2.4.2}%

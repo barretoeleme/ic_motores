@@ -33,9 +33,9 @@
 \begin{titlepage}
     \centering
     \vspace*{3cm}
-    {\Large\textbf{UFOP - Universidade Federal de Ouro Preto}} \\ 
+    {\Large\textbf{UFOP \-- Universidade Federal de Ouro Preto}} \\ 
     [0.3cm]
-    {\large Decom - Departamento de Ciência da Computação} \\ 
+    {\large Decom \-- Departamento de Ciência da Computação} \\ 
     [3cm]
     {\huge\bfseries Modelos Básicos para IPMSMs} \\ 
     [1.5cm]
@@ -45,7 +45,7 @@
     [0.5cm]
     {\large Professor: Rodrigo César Pedrosa Silva} \\ 
     [4cm]
-    {\large Ouro Preto - MG} \\
+    {\large Ouro Preto \-- MG} \\
     {\large \today}
 \end{titlepage}
 
@@ -176,7 +176,7 @@ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 
 
 
-\subsubsection{Coeficiente de Determinação ($R^2$)}
+\subsubsection{Coeficiente de Determinação (R² Score)}
 
 O coeficiente de determinação, ou $R^2$, mede a proporção da variância dos dados
 reais que é explicada pelo modelo:
@@ -881,6 +881,8 @@ Dentre os modelos observados na primeira fase experimental, destacam-se 2: \text
 Já na segunda fase experimental, o comportamento da aplicação do método \textit{Randomized Search} foi errático. Em alguns casos, houve uma melhora substancial nos resultados, quando comparados àqueles obtidos com modelos sem ajustes nos hiperparâmetros. Em outros, o comportamento foi contrário, e uma leve piora foi registrada. Isso pode ser explicado pela utilização dos mesmos hiperparâmetros e métodos para modelos em diferentes conjuntos de dados.
 
 Nota-se que o motor 2D obteve os melhores valores para MAPE dentre todos os outros motores. Entretanto, seu coeficiente de determinação e MSE não refletiram valores tão positivos quanto os demais. Na comparação entre valores preditos e observados, é notável que os resultados de 2D também se sobressaíram.
+
+Os valores de V também se sobressaíram: obteve as menores médias de MSE e maiores de score dentre todos os motores.
 
 % Conclusão
 \section{Conclusão}
