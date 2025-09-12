@@ -18,8 +18,7 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{subcaption}
-
-\addbibresource{referencias.bib} % Arquivo .bib com referências
+\addbibresource{refs.bib}
 
 % Configurações de página
 \geometry{a4paper, top=3cm, bottom=3cm, left=3cm, right=2.5cm}
@@ -59,10 +58,10 @@
 % Por enquanto, estou só fazendo um resumo sobre os tópicos pra me guiar um pouco sobre o que devo falar e detalhar depois.
 
 % O que são IPMSMs
-Os Motores Síncronos de Ímã Interno Permanente (IPMSMs) têm sido amplamente utilizados por serem uma alternativa menos agressiva ao meio ambiente, quando comparados aos motores de carros comuns.
+Os Motores Síncronos de Ímã Interno Permanente (IPMSMs) têm sido amplamente utilizados por serem uma alternativa menos agressiva ao meio ambiente, quando comparados aos motores de carros comuns. \parencite{shimizu2022efficiency} 
 
 % Por quê usar aprendizado de máquina para a análise de IPMSMs?
-Em fase de testes (Finite Element Analysis), os motores devem ser submetidos a várias condições de velocidade e torque. Fazer estes testes fisicamente é custoso e pode levar dias. Por essa razão, utilizar ``motores virtuais'' e prever suas perdas através de modelos de IA pode ser muito mais viável, pois este método não tem grandes custos e levam por volta de algumas horas.
+Em fase de testes (Finite Element Analysis), os motores devem ser submetidos a várias condições de velocidade e torque. Fazer estes testes fisicamente é custoso e pode levar dias. Por essa razão, utilizar ``motores virtuais'' e prever suas perdas através de modelos de IA pode ser muito mais viável, pois este método não tem grandes custos e levam por volta de algumas horas. \parencite{shimizu2022efficiency}
 
 % Por quê é importante estudar IPMSMs?
 Estudando IPMSMs podemos criar modelos de inteligência artificial que nos auxiliem a predizer as principais causas de perdas em ferro de determinado motor: perda por histerese e perda por eddy current.
@@ -77,7 +76,7 @@ Nesse contexto, este estudo tem como objetivo principal encontrar o melhor model
 
 Nesta seção do trabalho, serão descritos os métodos, algoritmos, procedimentos e métricas utilizadas para atingir o objetivo.
 
-
+O repositório do GitHub para este projeto está disponível em \parencite{barretoleme2025icmotores}.
 
 \subsection{Bases de dados}
 
@@ -125,7 +124,7 @@ Destes datasets, os parâmetros se categorizam em outros dois grupos: Features (
         \begin{figure}[htbp]
             \centering
             \includegraphics[width=0.5\textwidth]{images/diagram_2d.png}
-            \caption{Diagrama do motor 2D.}
+            \caption{Diagrama do motor 2D. \cite{shimizu2022efficiency}}
             \label{fig:diagram_2d}
         \end{figure}
     \item Nabla
@@ -133,7 +132,7 @@ Destes datasets, os parâmetros se categorizam em outros dois grupos: Features (
         \begin{figure}[htbp]
             \centering
             \includegraphics[width=0.5\textwidth]{images/diagram_nabla.png}
-            \caption{Diagrama do motor Nabla.}
+            \caption{Diagrama do motor Nabla. \cite{shimizu2022efficiency}}
             \label{fig:diagram_nabla}
         \end{figure}
     \item V
@@ -141,11 +140,10 @@ Destes datasets, os parâmetros se categorizam em outros dois grupos: Features (
         \begin{figure}[htbp]
             \centering
             \includegraphics[width=0.5\textwidth]{images/diagram_v.png}
-            \caption{Diagrama do motor V.}
+            \caption{Diagrama do motor V. \cite{shimizu2022efficiency}}
             \label{fig:diagram_v}
         \end{figure}
 \end{itemize}
-
 
 \newpage
 
@@ -895,6 +893,7 @@ Além disso, o estudo de hiperparâmetros e melhores configurações pode ser va
 
 \newpage
 \section{Referências}
-% \printbibliography
+
+\printbibliography
 
 \end{document}

@@ -2423,9 +2423,20 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
-    <bcf:datasource type="file" datatype="bibtex" glob="false">referencias.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">refs.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="2">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="3">barretoleme2025icmotores</bcf:citekey>
+    <bcf:citekey order="4">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="5">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="6">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="7">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="8">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="9">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="10">shimizu2022efficiency</bcf:citekey>
+    <bcf:citekey order="11">barretoleme2025icmotores</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
@@ -2469,4 +2480,13 @@
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
+  <bcf:datalist section="0"
+                name="nty/global//global/global"
+                type="entry"
+                sortingtemplatename="nty"
+                sortingnamekeytemplatename="global"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
 </bcf:controlfile>

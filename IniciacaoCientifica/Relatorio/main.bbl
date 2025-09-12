@@ -16,5 +16,66 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{barretoleme2025icmotores}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=72ae7a538921c5afa1ae6d1d9848299e}{%
+           family={Leme},
+           familyi={L\bibinitperiod},
+           given={Bianca\bibnamedelima Barreto},
+           giveni={B\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \strng{fullhash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \strng{bibnamehash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \strng{authorbibnamehash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \strng{authornamehash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \strng{authorfullhash}{72ae7a538921c5afa1ae6d1d9848299e}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/barretoeleme/ic_motores}}
+      \field{title}{Iniciação Científica - Modelos Básicos para IPMSMs}
+      \field{year}{2025}
+    \endentry
+    \entry{shimizu2022efficiency}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=07bbbd8c3b075d5b02af16ed497383ae}{%
+           family={Shimizu},
+           familyi={S\bibinitperiod},
+           given={Yuki},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \strng{fullhash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \strng{bibnamehash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \strng{authorbibnamehash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \strng{authornamehash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \strng{authorfullhash}{07bbbd8c3b075d5b02af16ed497383ae}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{Efficiency optimization design that considers control of interior permanent magnet synchronous motors based on machine learning for automotive application}
+      \field{volume}{11}
+      \field{year}{2022}
+      \field{pages}{41\bibrangedash 49}
+      \range{pages}{9}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
