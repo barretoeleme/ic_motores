@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Bianca Barreto Leme</h1>
-<h3 align="center">A graduate Computer Science student from Universidade Federal de Ouro Preto - Brazil</h3>
+<h3 align="center">A Computer Science Undergraduate Student from Universidade Federal de Ouro Preto - Brazil</h3>
 
 - 🔭 I’m currently working on [a scientific research](https://github.com/barretoeleme/ic_motores)
 
