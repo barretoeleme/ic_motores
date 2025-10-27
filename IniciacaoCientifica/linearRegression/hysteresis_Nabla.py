@@ -8,37 +8,37 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_percenta
 
 train_data_Nabla = pd.DataFrame()
 
-train_data_Nabla['hysteresis'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/hysteresis_all_scaled_train.csv')['total']
-train_data_Nabla['id'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_train.csv')['id']
-train_data_Nabla['iq'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_train.csv')['iq']
-train_data_Nabla['joule'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/joule_all_scaled_train.csv')['total']
-train_data_Nabla['speed'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/speed_all_scaled_train.csv')['N']
-train_data_Nabla['d1'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d1']
-train_data_Nabla['d2'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d2']
-train_data_Nabla['d3'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d3']
-train_data_Nabla['d4'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d4']
-train_data_Nabla['d5'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d5']
-train_data_Nabla['d6'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d6']
-train_data_Nabla['d7'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d7']
-train_data_Nabla['d8'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d8']
+train_data_Nabla['hysteresis'] = pd.read_csv('../dataset/Nabla/hysteresis_all_scaled_train.csv')['total']
+train_data_Nabla['id'] = pd.read_csv('../dataset/Nabla/idiq_all_scaled_train.csv')['id']
+train_data_Nabla['iq'] = pd.read_csv('../dataset/Nabla/idiq_all_scaled_train.csv')['iq']
+train_data_Nabla['joule'] = pd.read_csv('../dataset/Nabla/joule_all_scaled_train.csv')['total']
+train_data_Nabla['speed'] = pd.read_csv('../dataset/Nabla/speed_all_scaled_train.csv')['N']
+train_data_Nabla['d1'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d1']
+train_data_Nabla['d2'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d2']
+train_data_Nabla['d3'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d3']
+train_data_Nabla['d4'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d4']
+train_data_Nabla['d5'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d5']
+train_data_Nabla['d6'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d6']
+train_data_Nabla['d7'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d7']
+train_data_Nabla['d8'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_train.csv')['d8']
 
 
 
 test_data_Nabla = pd.DataFrame()
 
-test_data_Nabla['hysteresis'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/hysteresis_all_scaled_test.csv')['total']
-test_data_Nabla['id'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_test.csv')['id']
-test_data_Nabla['iq'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_test.csv')['iq']
-test_data_Nabla['joule'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/joule_all_scaled_test.csv')['total']
-test_data_Nabla['speed'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/speed_all_scaled_test.csv')['N']
-test_data_Nabla['d1'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d1']
-test_data_Nabla['d2'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d2']
-test_data_Nabla['d3'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d3']
-test_data_Nabla['d4'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d4']
-test_data_Nabla['d5'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d5']
-test_data_Nabla['d6'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d6']
-test_data_Nabla['d7'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d7']
-test_data_Nabla['d8'] = pd.read_csv('/mnt/c/prog/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d8']
+test_data_Nabla['hysteresis'] = pd.read_csv('../dataset/Nabla/hysteresis_all_scaled_test.csv')['total']
+test_data_Nabla['id'] = pd.read_csv('../dataset/Nabla/idiq_all_scaled_test.csv')['id']
+test_data_Nabla['iq'] = pd.read_csv('../dataset/Nabla/idiq_all_scaled_test.csv')['iq']
+test_data_Nabla['joule'] = pd.read_csv('../dataset/Nabla/joule_all_scaled_test.csv')['total']
+test_data_Nabla['speed'] = pd.read_csv('../dataset/Nabla/speed_all_scaled_test.csv')['N']
+test_data_Nabla['d1'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d1']
+test_data_Nabla['d2'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d2']
+test_data_Nabla['d3'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d3']
+test_data_Nabla['d4'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d4']
+test_data_Nabla['d5'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d5']
+test_data_Nabla['d6'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d6']
+test_data_Nabla['d7'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d7']
+test_data_Nabla['d8'] = pd.read_csv('../dataset/Nabla/xgeom_all_scaled_test.csv')['d8']
 
 
 variable = 'hysteresis'
@@ -75,7 +75,7 @@ results.score.linear = r2_score(y_test, predictions)
 results.mse.linear = mean_squared_error(y_test, predictions)
 results.mape.linear = mean_absolute_percentage_error(y_test, predictions)
 
-results.to_csv("/mnt/c/prog/IniciacaoCientifica/results/Nabla/hysteresis/results_lin_reg.csv")
+results.to_csv("../results/Nabla/hysteresis/results_lin_reg.csv")
 
 
 
@@ -84,7 +84,7 @@ data = pd.DataFrame(columns = newcolumns2)
 data.y_test = y_test
 data.y_pred = predictions
 
-data.to_csv("/mnt/c/prog/IniciacaoCientifica/pred/Nabla/hysteresis/pred_lin_reg.csv")
+data.to_csv("../pred/Nabla/hysteresis/pred_lin_reg.csv")
 
 
 
