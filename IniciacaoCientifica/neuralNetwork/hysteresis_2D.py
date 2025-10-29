@@ -161,4 +161,4 @@ for i in range(len(neurons)):
             contents = [neurons[i], layers[j], learning_rates[k], epochs, score, mse, mape, time]
             
             info = register_csv(contents, info)
-            register_txt(contents)
+            register_txt(contents, info)
