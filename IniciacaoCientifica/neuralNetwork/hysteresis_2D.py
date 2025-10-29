@@ -77,10 +77,10 @@ class RegressionModel(nn.Module):
         return x
 
 def register_csv(contents, info):
-    new_row = pd.DataFrame([contents], columns = data.columns)
+    new_row = pd.DataFrame([contents], columns = info.columns)
     info = pd.concat([info, new_row])
-    data.to_csv('./data/motor_2D_info.csv')
-    return data
+    info.to_csv('./data/motor_2D_info.csv')
+    return info
 
 def register_txt(contents, info):
     new_row = pd.DataFrame([contents], columns = info.columns)
