@@ -85,10 +85,10 @@ def register_csv(contents, info):
 def register_txt(contents, info):
     new_row = pd.DataFrame([contents], columns = info.columns)
     
-    with open('./data/motor_2D_log.txt'):
+    with open('./data/motor_2D_log.txt') as file:
         file.write("\n")
         
-        file.write(f"Test ID: {new_now.neurons}-{new_row.layers}-{new_row.learn_rate}-{new_row.epochs}\n")
+        file.write(f"Test ID: {new_row.neurons}-{new_row.layers}-{new_row.learn_rate}-{new_row.epochs}\n")
         file.write(f"Test run at {new_row.time}\n")
     
         file.write("\n")
