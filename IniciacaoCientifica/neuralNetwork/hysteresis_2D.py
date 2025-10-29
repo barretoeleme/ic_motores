@@ -126,6 +126,7 @@ info = pd.DataFrame(columns = columns)
 for i in range(len(neurons)):
     for j in range(len(layers)):
         for k in range(len(learning_rates)):
+            print(f"\nTraining model {i+j+k} --- {neurons[i]}-{layers[j]}-{learning_rates[k]}-{epochs}\n")
             input_dim = len(train_data.columns.drop(target))
             output_dim = len(target)
             
@@ -147,13 +148,17 @@ for i in range(len(neurons)):
                 optimizer.step()
                 
             y_pred = model(X_test)
-
             time = datetime.datetime.now()
+
+            print(f"\tFinished training model at {time}.\n")
+
             score = r2_score(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
             mse = mean_squared_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
             mape = mean_absolute_percentage_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
 
+            print(f"\tSpecs: score: {score}, mse: {mse}, mape: {mape}.\n\n")
+
             contents = [neurons[i], layers[j], learning_rates[k], epochs, score, mse, mape, time]
             
-            register_csv(contents, info)
+            info = register_csv(contents, info)
             register_txt(contents)
