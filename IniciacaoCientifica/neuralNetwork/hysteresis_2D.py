@@ -120,7 +120,7 @@ y_train = torch.tensor(train_data[target].values, dtype=torch.float32)
 X_test = torch.tensor(test_data.drop(columns = target).values, dtype=torch.float32)
 y_test = torch.tensor(test_data[target].values, dtype=torch.float32)
 
-columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'score', 'mse', 'mape', 'time']
+columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'hys_score', 'hys_mse', 'hys_mape', 'jou_score', 'jou_mse', 'jou_mape', 'time']
 info = pd.DataFrame(columns = columns)
 
 for i in range(len(neurons)):
@@ -146,19 +146,25 @@ for i in range(len(neurons)):
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
-                
-            y_pred = model(X_test)
+            
             time = datetime.datetime.now()
+            y_pred = model(X_test)
 
             print(f"\tFinished training model at {time}.\n")
 
-            score = r2_score(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
-            mse = mean_squared_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
-            mape = mean_absolute_percentage_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
+            hys_score = r2_score(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
+            hys_mse = mean_squared_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
+            hys_mape = mean_absolute_percentage_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
 
-            print(f"\tSpecs: score: {score}, mse: {mse}, mape: {mape}.\n\n")
+            jou_score = r2_score(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
+            jou_mse = mean_squared_error(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
+            jou_mape = mean_absolute_percentage_error(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
 
-            contents = [neurons[i], layers[j], learning_rates[k], epochs, score, mse, mape, time]
+            print(f"\tSpecs:")
+            print(f"\t\thys_score: {hys_score}, hys_mse: {hys_mse}, hys_mape: {hys_mape}.\n")
+            print(f"\t\tjou_score: {jou_score}, jou_mse: {jou_mse}, jou_mape: {jou_mape}.\n\n")
+
+            contents = [neurons[i], layers[j], learning_rates[k], epochs, hys_score, hys_mse, hys_mape, jou_score, jou_mse, jou_mape, time]
             
             info = register_csv(contents, info)
             # register_txt(contents, info)
