@@ -110,10 +110,10 @@ def register_txt(contents, info):
 
 target = ['hysteresis', 'joule']
 
-neurons = [5, 10, 15, 20, 25, 30]
+neurons = [10, 15, 20, 25, 30]
 layers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-learning_rates = [0.9, 0.5, 0.1, 0.05, 0.01]
-epochs = 500
+learning_rates = [0.1, 0.05, 0.01]
+epochs = 1000
 
 X_train = torch.tensor(train_data.drop(columns = target).values, dtype=torch.float32)
 y_train = torch.tensor(train_data[target].values, dtype=torch.float32)
@@ -126,7 +126,7 @@ info = pd.DataFrame(columns = columns)
 for i in range(len(neurons)):
     for j in range(len(layers)):
         for k in range(len(learning_rates)):
-            print(f"\nTraining model {i+j+k} --- {neurons[i]}-{layers[j]}-{learning_rates[k]}-{epochs}\n")
+            print(f"\nTraining model --- {neurons[i]}-{layers[j]}-{learning_rates[k]}-{epochs}\n")
             input_dim = len(train_data.columns.drop(target))
             output_dim = len(target)
             
