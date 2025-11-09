@@ -110,8 +110,8 @@ def register_txt(contents, info):
 
 target = ['hysteresis', 'joule']
 
-neurons = np.arange(1, 61, 5)
-layers = np.arange(1, 11)
+neurons = np.arange(1, 201, 5)
+layers = np.arange(1, 61)
 learning_rates = [0.1, 0.05, 0.01]
 epochs = 1000
 
