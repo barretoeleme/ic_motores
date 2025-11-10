@@ -18,7 +18,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_percenta
 # data loading
 
 MOTOR = "2D"
-PATH = f"../../dataset/{MOTOR}/"
+PATH = f"../dataset/{MOTOR}/"
 TRAIN_FILE = "_all_scaled_train.csv"
 TEST_FILE = "_all_scaled_train.csv"
 
@@ -40,15 +40,15 @@ test_data['joule'] = pd.read_csv(f'{PATH}joule{TEST_FILE}')['total']
 
 
 
-class MotorDataset(Dataset):
-    def __init__(self, dataset):
-        self.x = torch.tensor()
+# class MotorDataset(Dataset):
+#     def __init__(self, dataset):
+#         self.x = torch.tensor()
 
-    def __getitem__(self, index):
-        return 1
+#     def __getitem__(self, index):
+#         return 1
 
-    def __len__(self):
-        return len(self)
+#     def __len__(self):
+#         return len(self)
 
 class RegressionModel(nn.Module):
     
