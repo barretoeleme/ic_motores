@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 import matplotlib.pyplot as plt
 
 import datetime
@@ -10,51 +11,44 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils import data
-from torch.utils.data import DataLoader, TensorDataset, SubsetRandomSampler
+from torch.utils.data import DataLoader, Dataset
 
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_percentage_error
 
 # data loading
 
+MOTOR = "2D"
+PATH = f"../../dataset/{MOTOR}/"
+TRAIN_FILE = "_all_scaled_train.csv"
+TEST_FILE = "_all_scaled_train.csv"
+
 train_data = pd.DataFrame()
 
-train_data['hysteresis'] = pd.read_csv('../dataset/2D/hysteresis_all_scaled_train.csv')['total']
-train_data['id'] = pd.read_csv('../dataset/2D/idiq_all_scaled_train.csv')['id']
-train_data['iq'] = pd.read_csv('../dataset/2D/idiq_all_scaled_train.csv')['iq']
-train_data['joule'] = pd.read_csv('../dataset/2D/joule_all_scaled_train.csv')['total']
-train_data['speed'] = pd.read_csv('../dataset/2D/speed_all_scaled_train.csv')['N']
-train_data['d1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d1']
-train_data['d2'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d2']
-train_data['d3'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d3']
-train_data['d4'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d4']
-train_data['d5'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d5']
-train_data['d6'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d6']
-train_data['d7'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d7']
-train_data['d8'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d8']
-train_data['d9'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['d9']
-train_data['r1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['r1']
-train_data['t1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_train.csv')['t1']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}idiq{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+train_data['speed'] = pd.read_csv(f'{PATH}speed{TRAIN_FILE}')['N']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}xgeom{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+train_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TRAIN_FILE}')['total']
+train_data['joule'] = pd.read_csv(f'{PATH}joule{TRAIN_FILE}')['total']
 
 test_data = pd.DataFrame()
 
-test_data['hysteresis'] = pd.read_csv('../dataset/2D/hysteresis_all_scaled_test.csv')['total']
-test_data['id'] = pd.read_csv('../dataset/2D/idiq_all_scaled_test.csv')['id']
-test_data['iq'] = pd.read_csv('../dataset/2D/idiq_all_scaled_test.csv')['iq']
-test_data['joule'] = pd.read_csv('../dataset/2D/joule_all_scaled_test.csv')['total']
-test_data['speed'] = pd.read_csv('../dataset/2D/speed_all_scaled_test.csv')['N']
-test_data['d1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d1']
-test_data['d2'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d2']
-test_data['d3'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d3']
-test_data['d4'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d4']
-test_data['d5'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d5']
-test_data['d6'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d6']
-test_data['d7'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d7']
-test_data['d8'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d8']
-test_data['d9'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['d9']
-test_data['r1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['r1']
-test_data['t1'] = pd.read_csv('../dataset/2D/xgeom_all_scaled_test.csv')['t1']
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}idiq{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+test_data['speed'] = pd.read_csv(f'{PATH}speed{TEST_FILE}')['N']
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}xgeom{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+test_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TEST_FILE}')['total']
+test_data['joule'] = pd.read_csv(f'{PATH}joule{TEST_FILE}')['total']
 
 
+
+class MotorDataset(Dataset):
+    def __init__(self, dataset):
+        self.x = torch.tensor()
+
+    def __getitem__(self, index):
+        return 1
+
+    def __len__(self):
+        return len(self)
 
 class RegressionModel(nn.Module):
     
@@ -110,8 +104,8 @@ def register_txt(contents, info):
 
 target = ['hysteresis', 'joule']
 
-neurons = np.arange(8, 33, 4)
-layers = np.arange(1, 21)
+neurons = np.arange(10, 200, 10)
+layers = [1, 2]
 learning_rates = [0.1, 0.05, 0.01]
 epochs = 1000
 
