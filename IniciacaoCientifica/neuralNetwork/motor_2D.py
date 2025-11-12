@@ -105,22 +105,15 @@ for i in range(len(neurons)):
             loss_func = nn.MSELoss()
             optimizer = torch.optim.SGD(model.parameters(), lr = learning_rates[k])
 
-            model.train()
             for a in range(epochs):
-                epoch_loss = 0.0
-                
-                for batch, (X, y) in enumerate(train_loader):
+                model.train()
+                for X, y in train_loader:
                     pred_train = model(X)
                     loss = loss_func(pred_train, y)
                     
                     loss.backward()
                     optimizer.step()
                     optimizer.zero_grad()
-        
-                    epoch_loss += loss.item()
-
-                    if batch % 100 == 0:
-                        loss, current = loss.item(), batch * BATCH_SIZE + len(X)
 
             time = datetime.datetime.now()
             print(f"\tFinished training model at {time}.\n")
