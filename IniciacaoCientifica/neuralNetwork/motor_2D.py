@@ -58,7 +58,7 @@ class RegressionModel(nn.Module):
     
 class MotorDataset(Dataset):
     def __init__(self, X, y):
-        super.__init__()
+        super().__init__()
         self.X = torch.tensor(X.values, dtype=torch.float32)
         self.y = torch.tensor(y.values, dtype=torch.float32)
 
