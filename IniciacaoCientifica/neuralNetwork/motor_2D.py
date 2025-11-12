@@ -77,8 +77,8 @@ def register_csv(contents, info, MOTOR):
 
 target = ['hysteresis', 'joule']
 
-train_dataset = MotorDataset(train_data.drop(columns=target), train_data[target])
-test_dataset = MotorDataset(test_data.drop(columns=target), test_data[target])
+train_dataset = MotorDataset(train_data.drop(columns = target), train_data[target])
+test_dataset = MotorDataset(test_data.drop(columns = target), test_data[target])
 
 BATCH_SIZE = 64
 
@@ -100,49 +100,46 @@ for i in range(len(neurons)):
             
             input_dim = len(train_data.columns.drop(target))
             output_dim = len(target)
-            
             model = RegressionModel(input_dim, output_dim, neurons[i], layers[j])
             
             loss_func = nn.MSELoss()
             optimizer = torch.optim.SGD(model.parameters(), lr = learning_rates[k])
-            
-            losses = torch.zeros(epochs)
 
+            model.train()
             for a in range(epochs):
-                model.train()
                 epoch_loss = 0.0
                 
-                for X_batch, y_batch in train_loader:
-                    pred_train = model(X_batch)
-                    loss = loss_func(pred_train, y_batch)
+                for batch, (X, y) in enumerate(train_loader):
+                    pred_train = model(X)
+                    loss = loss_func(pred_train, y)
                     
-                    optimizer.zero_grad()
                     loss.backward()
                     optimizer.step()
+                    optimizer.zero_grad()
         
                     epoch_loss += loss.item()
-                    print(X_batch[0])
+
+                    if batch % 100 == 0:
+                        loss, current = loss.item(), batch * BATCH_SIZE + len(X)
 
             time = datetime.datetime.now()
             print(f"\tFinished training model at {time}.\n")
 
 
 
-            model.eval()
-
             y_pred_list = []
             y_test_list = []
 
+            model.eval()
+
             with torch.no_grad():
-                for X_batch, y_batch in test_loader:
-                    pred_test = model(X_batch)
+                for X, y in test_loader:
+                    pred_test = model(X)
                     y_pred_list.append(pred_test)
-                    y_test_list.append(y_batch)
-                    
+                    y_test_list.append(y)
+            
             y_pred = torch.cat(y_pred_list)
             y_test = torch.cat(y_test_list)
-
-
 
             hys_score = r2_score(y_test[:, 0], y_pred[:, 0])
             hys_mse = mean_squared_error(y_test[:, 0], y_pred[:, 0])
@@ -151,6 +148,8 @@ for i in range(len(neurons)):
             jou_score = r2_score(y_test[:, 1], y_pred[:, 1])
             jou_mse = mean_squared_error(y_test[:, 1], y_pred[:, 1])
             jou_mape = mean_absolute_percentage_error(y_test[:, 1], y_pred[:, 1])
+
+
 
             print(f"\tSpecs:")
             print(f"\t\thys_score: {hys_score}, hys_mse: {hys_mse}, hys_mape: {hys_mape}.\n")
