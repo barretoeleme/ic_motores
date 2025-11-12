@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 import matplotlib.pyplot as plt
 
 import datetime
@@ -10,39 +11,30 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils import data
-from torch.utils.data import DataLoader, TensorDataset, SubsetRandomSampler
+from torch.utils.data import DataLoader, Dataset
 
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_percentage_error
 
-# data loading
+MOTOR = "V"
+PATH = f"../dataset/{MOTOR}/"
+TRAIN_FILE = "_all_scaled_train.csv"
+TEST_FILE = "_all_scaled_test.csv"
 
 train_data = pd.DataFrame()
 
-train_data['hysteresis'] = pd.read_csv('../dataset/V/hysteresis_all_scaled_train.csv')['total']
-train_data['id'] = pd.read_csv('../dataset/V/idiq_all_scaled_train.csv')['id']
-train_data['iq'] = pd.read_csv('../dataset/V/idiq_all_scaled_train.csv')['iq']
-train_data['joule'] = pd.read_csv('../dataset/V/joule_all_scaled_train.csv')['total']
-train_data['speed'] = pd.read_csv('../dataset/V/speed_all_scaled_train.csv')['N']
-train_data['d1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_train.csv')['d1']
-train_data['d2'] = pd.read_csv('../dataset/V/xgeom_all_scaled_train.csv')['d2']
-train_data['d3'] = pd.read_csv('../dataset/V/xgeom_all_scaled_train.csv')['d3']
-train_data['r1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_train.csv')['r1']
-train_data['t1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_train.csv')['t1']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}idiq{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+train_data['speed'] = pd.read_csv(f'{PATH}speed{TRAIN_FILE}')['N']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}xgeom{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+train_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TRAIN_FILE}')['total']
+train_data['joule'] = pd.read_csv(f'{PATH}joule{TRAIN_FILE}')['total']
 
 test_data = pd.DataFrame()
 
-test_data['hysteresis'] = pd.read_csv('../dataset/V/hysteresis_all_scaled_test.csv')['total']
-test_data['id'] = pd.read_csv('../dataset/V/idiq_all_scaled_test.csv')['id']
-test_data['iq'] = pd.read_csv('../dataset/V/idiq_all_scaled_test.csv')['iq']
-test_data['joule'] = pd.read_csv('../dataset/V/joule_all_scaled_test.csv')['total']
-test_data['speed'] = pd.read_csv('../dataset/V/speed_all_scaled_test.csv')['N']
-test_data['d1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_test.csv')['d1']
-test_data['d2'] = pd.read_csv('../dataset/V/xgeom_all_scaled_test.csv')['d2']
-test_data['d3'] = pd.read_csv('../dataset/V/xgeom_all_scaled_test.csv')['d3']
-test_data['r1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_test.csv')['r1']
-test_data['t1'] = pd.read_csv('../dataset/V/xgeom_all_scaled_test.csv')['t1']
-
-
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}idiq{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+test_data['speed'] = pd.read_csv(f'{PATH}speed{TEST_FILE}')['N']
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}xgeom{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+test_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TEST_FILE}')['total']
+test_data['joule'] = pd.read_csv(f'{PATH}joule{TEST_FILE}')['total']
 
 class RegressionModel(nn.Module):
     
@@ -63,53 +55,43 @@ class RegressionModel(nn.Module):
     def forward(self, x):
         x = self.linear(x)
         return x
+    
+class MotorDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X.values, dtype=torch.float32)
+        self.y = torch.tensor(y.values, dtype=torch.float32)
 
-def register_csv(contents, info):
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, index):
+        return self.X[index], self.y[index]
+
+def register_csv(contents, info, MOTOR):
     new_row = pd.DataFrame([contents], columns = info.columns)
     info = pd.concat([info, new_row])
-    info.to_csv('./data/motor_V_info.csv')
+    info.to_csv(f'./data/motor_{MOTOR}_info.csv')
     return info
 
-def register_txt(contents, info):
-    new_row = pd.DataFrame([contents], columns = info.columns)
-    
-    with open('./data/motor_V_log.txt') as file:
-        file.write("\n")
-        
-        file.write(f"Test ID: {new_row.neurons}-{new_row.layers}-{new_row.learn_rate}-{new_row.epochs}\n")
-        file.write(f"Test run at {new_row.time}\n")
-    
-        file.write("\n")
-        
-        file.write("\t> Parameters:\n")
-        file.write(f"\t\t>> Number of neurons: {new_row.neurons}\n")
-        file.write(f"\t\t>> Number of layers: {new_row.layers}\n")
-        file.write(f"\t\t>> Learning rate: {new_row.learn_rate}\n")
-        file.write(f"\t\t>> Number of epochs: {new_row.epochs}\n")
-    
-        file.write("\n")
-    
-        file.write("\t> Results:\n")
-        file.write(f"\t\t>> Score: {new_row.score}\n")
-        file.write(f"\t\t>> Mean squared error: {new_row.mse}\n")
-        file.write(f"\t\t>> MAPE: {new_row.mape}\n")
-    
-        file.write("\n")
+
 
 target = ['hysteresis', 'joule']
 
-neurons = [10, 15, 20, 25, 30]
-layers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-learning_rates = [0.1, 0.05, 0.01]
-epochs = 1000
+train_dataset = MotorDataset(train_data.drop(columns = target), train_data[target])
+test_dataset = MotorDataset(test_data.drop(columns = target), test_data[target])
 
-X_train = torch.tensor(train_data.drop(columns = target).values, dtype=torch.float32)
-y_train = torch.tensor(train_data[target].values, dtype=torch.float32)
-X_test = torch.tensor(test_data.drop(columns = target).values, dtype=torch.float32)
-y_test = torch.tensor(test_data[target].values, dtype=torch.float32)
+BATCH_SIZE = 256
+
+train_loader = DataLoader(train_dataset, batch_size = BATCH_SIZE, shuffle = True)
+test_loader = DataLoader(test_dataset, batch_size = BATCH_SIZE, shuffle = True)
 
 columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'hys_score', 'hys_mse', 'hys_mape', 'jou_score', 'jou_mse', 'jou_mape', 'time']
 info = pd.DataFrame(columns = columns)
+
+neurons = np.arange(10, 200 + 1, 10)
+layers = [1, 2]
+learning_rates = [0.1, 0.01]
+epochs = 100
 
 for i in range(len(neurons)):
     for j in range(len(layers)):
@@ -118,36 +100,49 @@ for i in range(len(neurons)):
             
             input_dim = len(train_data.columns.drop(target))
             output_dim = len(target)
-            
             model = RegressionModel(input_dim, output_dim, neurons[i], layers[j])
             
             loss_func = nn.MSELoss()
             optimizer = torch.optim.SGD(model.parameters(), lr = learning_rates[k])
-            
-            losses = torch.zeros(epochs)
 
             for a in range(epochs):
-                pred = model(X_train)
-            
-                loss = loss_func(pred, y_train)
-                losses[a] = loss
-            
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
-            
-            time = datetime.datetime.now()
-            y_pred = model(X_test)
+                model.train()
+                for X, y in train_loader:
+                    pred_train = model(X)
+                    loss = loss_func(pred_train, y)
+                    
+                    loss.backward()
+                    optimizer.step()
+                    optimizer.zero_grad()
 
+            time = datetime.datetime.now()
             print(f"\tFinished training model at {time}.\n")
 
-            hys_score = r2_score(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
-            hys_mse = mean_squared_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
-            hys_mape = mean_absolute_percentage_error(y_pred[:, 0].detach().numpy(), y_test[:, 0].detach().numpy())
 
-            jou_score = r2_score(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
-            jou_mse = mean_squared_error(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
-            jou_mape = mean_absolute_percentage_error(y_pred[:, 1].detach().numpy(), y_test[:, 1].detach().numpy())
+
+            y_pred_list = []
+            y_test_list = []
+
+            model.eval()
+
+            with torch.no_grad():
+                for X, y in test_loader:
+                    pred_test = model(X)
+                    y_pred_list.append(pred_test)
+                    y_test_list.append(y)
+            
+            y_pred = torch.cat(y_pred_list)
+            y_test = torch.cat(y_test_list)
+
+            hys_score = r2_score(y_test[:, 0], y_pred[:, 0])
+            hys_mse = mean_squared_error(y_test[:, 0], y_pred[:, 0])
+            hys_mape = mean_absolute_percentage_error(y_test[:, 0], y_pred[:, 0])
+
+            jou_score = r2_score(y_test[:, 1], y_pred[:, 1])
+            jou_mse = mean_squared_error(y_test[:, 1], y_pred[:, 1])
+            jou_mape = mean_absolute_percentage_error(y_test[:, 1], y_pred[:, 1])
+
+
 
             print(f"\tSpecs:")
             print(f"\t\thys_score: {hys_score}, hys_mse: {hys_mse}, hys_mape: {hys_mape}.\n")
@@ -155,5 +150,4 @@ for i in range(len(neurons)):
 
             contents = [neurons[i], layers[j], learning_rates[k], epochs, hys_score, hys_mse, hys_mape, jou_score, jou_mse, jou_mape, time]
             
-            info = register_csv(contents, info)
-            # register_txt(contents, info)
+            info = register_csv(contents, info, MOTOR)
