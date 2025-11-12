@@ -80,7 +80,7 @@ target = ['hysteresis', 'joule']
 train_dataset = MotorDataset(train_data.drop(columns = target), train_data[target])
 test_dataset = MotorDataset(test_data.drop(columns = target), test_data[target])
 
-BATCH_SIZE = 64
+BATCH_SIZE = 256
 
 train_loader = DataLoader(train_dataset, batch_size = BATCH_SIZE, shuffle = True)
 test_loader = DataLoader(test_dataset, batch_size = BATCH_SIZE, shuffle = True)
@@ -88,10 +88,10 @@ test_loader = DataLoader(test_dataset, batch_size = BATCH_SIZE, shuffle = True)
 columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'hys_score', 'hys_mse', 'hys_mape', 'jou_score', 'jou_mse', 'jou_mape', 'time']
 info = pd.DataFrame(columns = columns)
 
-neurons = np.arange(10, 200, 10)
+neurons = np.arange(10, 200 + 1, 10)
 layers = [1, 2]
 learning_rates = [0.1, 0.01]
-epochs = 1
+epochs = 1000
 
 for i in range(len(neurons)):
     for j in range(len(layers)):
