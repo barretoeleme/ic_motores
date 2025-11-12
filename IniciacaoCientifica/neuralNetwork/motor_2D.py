@@ -91,7 +91,7 @@ info = pd.DataFrame(columns = columns)
 neurons = np.arange(10, 200, 10)
 layers = [1, 2]
 learning_rates = [0.1, 0.01]
-epochs = 1000
+epochs = 1
 
 for i in range(len(neurons)):
     for j in range(len(layers)):
