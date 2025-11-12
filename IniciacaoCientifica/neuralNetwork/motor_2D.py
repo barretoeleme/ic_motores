@@ -58,7 +58,6 @@ class RegressionModel(nn.Module):
     
 class MotorDataset(Dataset):
     def __init__(self, X, y):
-        super().__init__()
         self.X = torch.tensor(X.values, dtype=torch.float32)
         self.y = torch.tensor(y.values, dtype=torch.float32)
 
@@ -86,17 +85,12 @@ BATCH_SIZE = 64
 train_loader = DataLoader(train_dataset, batch_size = BATCH_SIZE, shuffle = True)
 test_loader = DataLoader(test_dataset, batch_size = BATCH_SIZE, shuffle = True)
 
-# X_train = torch.tensor(train_data.drop(columns = target).values, dtype=torch.float32)
-# y_train = torch.tensor(train_data[target].values, dtype=torch.float32)
-# X_test = torch.tensor(test_data.drop(columns = target).values, dtype=torch.float32)
-# y_test = torch.tensor(test_data[target].values, dtype=torch.float32)
-
 columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'hys_score', 'hys_mse', 'hys_mape', 'jou_score', 'jou_mse', 'jou_mape', 'time']
 info = pd.DataFrame(columns = columns)
 
 neurons = np.arange(10, 200, 10)
 layers = [1, 2]
-learning_rates = [0.1, 0.05, 0.01]
+learning_rates = [0.1, 0.01]
 epochs = 1000
 
 for i in range(len(neurons)):
@@ -127,6 +121,7 @@ for i in range(len(neurons)):
                     optimizer.step()
         
                     epoch_loss += loss.item()
+                    print("batch")
 
             time = datetime.datetime.now()
             print(f"\tFinished training model at {time}.\n")
