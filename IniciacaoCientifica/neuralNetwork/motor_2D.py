@@ -121,7 +121,7 @@ for i in range(len(neurons)):
                     optimizer.step()
         
                     epoch_loss += loss.item()
-                    print("batch")
+                    print(X_batch[0])
 
             time = datetime.datetime.now()
             print(f"\tFinished training model at {time}.\n")
