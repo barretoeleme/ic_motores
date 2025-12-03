@@ -113,7 +113,7 @@ print(autoencoder_model)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(autoencoder_model.parameters(), lr=0.1)
 
-epochs = 10
+epochs = 1000
 train_losses = []
 val_losses = []
 
