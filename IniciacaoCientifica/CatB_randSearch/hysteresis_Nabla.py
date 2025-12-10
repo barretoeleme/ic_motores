@@ -4,37 +4,34 @@ from catboost import CatBoostRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error, r2_score, accuracy_score
 from sklearn.model_selection import RandomizedSearchCV, RepeatedKFold, train_test_split
 
+
+
+MOTOR = "Nabla"
+PATH = f"../dataset/{MOTOR}/"
+TRAIN_FILE = "_all_scaled_train.csv"
+TEST_FILE = "_all_scaled_test.csv"
+
 train_data = pd.DataFrame()
 
-train_data['hysteresis'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/hysteresis_all_scaled_train.csv')['total']
-train_data['id'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_train.csv')['id']
-train_data['iq'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_train.csv')['iq']
-train_data['joule'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/joule_all_scaled_train.csv')['total']
-train_data['speed'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/speed_all_scaled_train.csv')['N']
-train_data['d1'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d1']
-train_data['d2'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d2']
-train_data['d3'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d3']
-train_data['d4'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d4']
-train_data['d5'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d5']
-train_data['d6'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d6']
-train_data['d7'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d7']
-train_data['d8'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_train.csv')['d8']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}idiq{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+train_data['speed'] = pd.read_csv(f'{PATH}speed{TRAIN_FILE}')['N']
+train_data = pd.concat([train_data, pd.read_csv(f'{PATH}xgeom{TRAIN_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+
+train_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TRAIN_FILE}')['total']
+train_data['joule'] = pd.read_csv(f'{PATH}joule{TRAIN_FILE}')['total']
+
 
 test_data = pd.DataFrame()
 
-test_data['hysteresis'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/hysteresis_all_scaled_test.csv')['total']
-test_data['id'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_test.csv')['id']
-test_data['iq'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/idiq_all_scaled_test.csv')['iq']
-test_data['joule'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/joule_all_scaled_test.csv')['total']
-test_data['speed'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/speed_all_scaled_test.csv')['N']
-test_data['d1'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d1']
-test_data['d2'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d2']
-test_data['d3'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d3']
-test_data['d4'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d4']
-test_data['d5'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d5']
-test_data['d6'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d6']
-test_data['d7'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d7']
-test_data['d8'] = pd.read_csv('~/ic_motores/IniciacaoCientifica/dataset/Nabla/xgeom_all_scaled_test.csv')['d8']
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}idiq{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+
+test_data['speed'] = pd.read_csv(f'{PATH}speed{TEST_FILE}')['N']
+test_data = pd.concat([test_data, pd.read_csv(f'{PATH}xgeom{TEST_FILE}').drop(columns = "Unnamed: 0")], axis = 1)
+
+test_data['hysteresis'] = pd.read_csv(f'{PATH}hysteresis{TEST_FILE}')['total']
+test_data['joule'] = pd.read_csv(f'{PATH}joule{TEST_FILE}')['total']
+
+
 
 variable = 'hysteresis'
 
@@ -77,7 +74,7 @@ rand_search = RandomizedSearchCV(
     n_iter=30,
     random_state=0,
     n_jobs=-1,
-    verbose=2
+    verbose=0
 )
 
 # Fit search
@@ -95,32 +92,32 @@ best_model.fit(
     eval_set=(X_val, y_val),
     early_stopping_rounds=10,
     use_best_model=True,
-    verbose=100  # Show progress every 100 iterations
+    verbose=0  # Show progress every 100 iterations
 )
 
 # Predict
 y_pred = best_model.predict(X_test)
 
-
-
-print("Results in Randomized Search for CatBoost in hysteresis loss prediction in motor Nabla")
-print(f"Coefficient of determination: {r2_score(y_test, y_pred)}")
+print(f"Category Boost with Randomized Search model results in {variable} loss for motor {MOTOR}")
+print(f"Score: {r2_score(y_test, y_pred)}")
 print(f"Mean squared error: {mean_squared_error(y_test, y_pred)}")
-print(f"Mean absolute percentage error: {mean_absolute_percentage_error(y_test, y_pred)}")
+print(f"MAPE: {mean_absolute_percentage_error(y_test, y_pred)}")
 
 
 
-method = 'cat_rand'
+method = "cat_rand"
+
 
 newindex = pd.Index([method], name = 'method')
 newcolumns = pd.Index(['score', 'mse', 'mape'], name = 'metric')
 results = pd.DataFrame(index = newindex,
                        columns = newcolumns)
-results.score.cat_rand = r2_score(y_test, y_pred)
-results.mse.cat_rand = mean_squared_error(y_test, y_pred)
-results.mape.cat_rand = mean_absolute_percentage_error(y_test, y_pred)
+results.loc[method, "score"] = r2_score(y_test, y_pred)
+results.loc[method, "mse"] = mean_squared_error(y_test, y_pred)
+results.loc[method, "mape"] = mean_absolute_percentage_error(y_test, y_pred)
 
-results.to_csv("~/ic_motores/IniciacaoCientifica/results/Nabla/hysteresis/results_cat_rand.csv")
+results.to_csv(f"../results/{MOTOR}/{variable}/results_{method}.csv")
+
 
 
 newcolumns2 = pd.Index(['y_test', 'y_pred'], name = 'data')
@@ -128,5 +125,5 @@ data = pd.DataFrame(columns = newcolumns2)
 data.y_test = y_test
 data.y_pred = y_pred
 
-data.to_csv("~/ic_motores/IniciacaoCientifica/pred/Nabla/hysteresis/pred_cat_rand.csv")
+data.to_csv(f"../pred/{MOTOR}/{variable}/pred_{method}.csv")
 
