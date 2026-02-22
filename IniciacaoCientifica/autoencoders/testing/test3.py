@@ -139,7 +139,7 @@ autoencoder_model.to(device)
 
 criterion = nn.MSELoss()
 optimizer = optim.Adam(autoencoder_model.parameters(), lr=1e-3)
-epochs = 100
+epochs = 50
 
 # --------------------------------------------------- #
 
@@ -182,16 +182,6 @@ for epoch in range(epochs):
 
     print(f'Epoch [{epoch+1}/{epochs}], Train Loss: {epoch_train_loss:.4f}, Val Loss: {epoch_val_loss:.4f}')
 
-
-# Random testing
-# encoded = autoencoder_model.encoder(data[0])
-# decoded = autoencoder_model.decoder(encoded)
-
-# y_true = data[0].cpu().detach().numpy()
-# y_pred = decoded.cpu().detach().numpy()
-
-# print(mean_absolute_percentage_error(y_true, y_pred))
-
 # --------------------------------------------------- #
 
 # ----------------- Neural Network Train ----------------- #
@@ -225,8 +215,8 @@ columns = ['neurons', 'layers', 'learn_rate', 'epochs', 'hys_score', 'hys_mse',
 info = pd.DataFrame(columns=columns)
 
 neurons = np.arange(10, 200 + 1, 10)
-layers = [1, 2]
-learning_rates = [0.1, 0.01]
+layers = [1, 2, 4]
+learning_rates = [0.001, 0.0005, 0.0003]
 epochs = 100
 
 for i in range(len(neurons)):
@@ -241,7 +231,7 @@ for i in range(len(neurons)):
             model = RegressionModel(input_dim, output_dim, neurons[i], layers[j])
 
             loss_func = nn.MSELoss()
-            optimizer = torch.optim.SGD(model.parameters(), lr=learning_rates[k])
+            optimizer = torch.optim.Adam(model.parameters(), lr=learning_rates[k])
 
             for a in range(epochs):
                 model.train()
